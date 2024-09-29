@@ -1,21 +1,22 @@
 package com.cambio.contacao.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.math.BigDecimal;
 
 @Data
 @Entity
+@Table(name = "moeda")
 public class Moeda {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "nome", nullable = false)
     private String nome;
+
+    @Column(name = "codigo_moeda", nullable = false)
     private String codigo;
+
+    @Column(name = "simbolo_moeda", nullable = false)
+    private String simbolo;
 }
