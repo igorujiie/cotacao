@@ -1,6 +1,5 @@
 package com.cambio.contacao.model;
 
-
 import com.cambio.contacao.enums.Operacao;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,10 +16,13 @@ public class OperacaoCambio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "moeda_origem", nullable = false)
+
+    @ManyToOne
+    @JoinColumn(name = "moeda_origem_id", nullable = false)
     private Moeda moedaOrigem;
 
-    @Column(name = "moeda_destino", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "moeda_destino_id", nullable = false)
     private Moeda moedaDestino;
 
     @Column(name = "valor", nullable = false)
@@ -31,4 +33,26 @@ public class OperacaoCambio {
 
     @Column(name = "operacao", nullable = false)
     private Operacao operacao;
+
+    public void calcularValorConvertido() {
+        BigDecimal taxaOrigem = moedaOrigem.getTaxa().getValorTaxa();
+        BigDecimal taxaDestino = moedaDestino.getTaxa().getValorTaxa();
+        this.valorConvertido = this.valor.multiply(taxaOrigem).divide(taxaDestino, 2, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public Moeda getMoedaOrigem() {
+        return moedaOrigem;
+    }
+
+    public void setMoedaOrigem(Moeda moedaOrigem) {
+        this.moedaOrigem = moedaOrigem;
+    }
+
+    public Moeda getMoedaDestino() {
+        return moedaDestino;
+    }
+
+    public void setMoedaDestino(Moeda moedaDestino) {
+        this.moedaDestino = moedaDestino;
+    }
 }
