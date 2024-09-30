@@ -28,27 +28,4 @@ public class Taxa {
     @JsonBackReference
     private Moeda moeda;
 
-    public BigDecimal getValorTaxaCompra() {
-        return valorTaxaCompra;
-    }
-
-    public void setValorTaxaCompra(BigDecimal valorTaxaCompra) {
-        this.valorTaxaCompra = valorTaxaCompra;
-    }
-
-    public BigDecimal getValorTaxaVenda() {
-        return valorTaxaVenda;
-    }
-
-    public void setValorTaxaVenda(BigDecimal valorTaxaVenda) {
-        this.valorTaxaVenda = valorTaxaVenda;
-    }
-
-    public Moeda getMoeda() {
-        return moeda;
-    }
-
-    public void setMoeda(Moeda moeda) {
-        this.moeda = moeda;
-    }
 }
