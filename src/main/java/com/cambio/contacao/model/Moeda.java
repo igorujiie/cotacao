@@ -3,6 +3,7 @@ package com.cambio.contacao.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -25,12 +26,11 @@ public class Moeda {
     private String simboloMoeda;
 
     @OneToOne(mappedBy = "moeda", cascade = CascadeType.ALL)
-    @Getter
-    @Setter
     private Taxa taxa;
 
+    public Moeda(){
 
-
+    }
 
     public Long getId() {
         return id;

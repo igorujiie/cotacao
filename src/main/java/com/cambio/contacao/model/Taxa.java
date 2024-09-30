@@ -16,20 +16,32 @@ public class Taxa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "valor_taxa", nullable = false)
-    private BigDecimal valorTaxa;
+    @Column(name = "valor_taxa_compra", nullable = false)
+    private BigDecimal valorTaxaCompra;
+
+    @Column(name = "valor_taxa_venda", nullable = false)
+    private BigDecimal valorTaxaVenda;
+
 
     @OneToOne
     @JoinColumn(name = "moeda_id", referencedColumnName = "id")
     @JsonBackReference
     private Moeda moeda;
 
-    public BigDecimal getValorTaxa() {
-        return valorTaxa;
+    public BigDecimal getValorTaxaCompra() {
+        return valorTaxaCompra;
     }
 
-    public void setValorTaxa(BigDecimal valorTaxa) {
-        this.valorTaxa = valorTaxa;
+    public void setValorTaxaCompra(BigDecimal valorTaxaCompra) {
+        this.valorTaxaCompra = valorTaxaCompra;
+    }
+
+    public BigDecimal getValorTaxaVenda() {
+        return valorTaxaVenda;
+    }
+
+    public void setValorTaxaVenda(BigDecimal valorTaxaVenda) {
+        this.valorTaxaVenda = valorTaxaVenda;
     }
 
     public Moeda getMoeda() {

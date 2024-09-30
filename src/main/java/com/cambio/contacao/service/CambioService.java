@@ -1,12 +1,15 @@
 package com.cambio.contacao.service;
 
+import com.cambio.contacao.DTO.CambioRequestDTO;
+import com.cambio.contacao.enums.Operacao;
 import com.cambio.contacao.model.OperacaoCambio;
 import com.cambio.contacao.model.Moeda;
 import com.cambio.contacao.repository.OperacaoDeCambioRepository;
-import com.cambio.contacao.repository.MoedaRepository;
+import com.cambio.contacao.util.Conversor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -16,23 +19,33 @@ public class CambioService {
     private OperacaoDeCambioRepository operacaoDeCambioRepository;
 
     @Autowired
-    private MoedaRepository moedaRepository;
+    private MoedaService moedaService;
+
+    public OperacaoCambio save(CambioRequestDTO cambioRequestDTO) {
+        Moeda moedaOrigem = moedaService.findByCodigo(cambioRequestDTO.getMoedaOrigem())
+                .orElseThrow(() -> new IllegalArgumentException("Moeda de origem não encontrada"));
+        Moeda moedaDestino = moedaService.findByCodigo(cambioRequestDTO.getMoedaDestino())
+                .orElseThrow(() -> new IllegalArgumentException("Moeda de destino não encontrada"));
+
+        BigDecimal valorConvertido;
+        if (cambioRequestDTO.getOperacao().equals(Operacao.COMPRA)) {
+            valorConvertido = Conversor.converterCompraDeMoeda(cambioRequestDTO.getValor(), moedaDestino.getTaxa().getValorTaxaCompra());
+        } else {
+            valorConvertido = Conversor.converterVendaDeMoeda(cambioRequestDTO.getValor(), moedaOrigem.getTaxa().getValorTaxaVenda());
+        }
+
+        OperacaoCambio operacaoCambio = new OperacaoCambio();
+        operacaoCambio.setMoedaOrigem(moedaOrigem);
+        operacaoCambio.setMoedaDestino(moedaDestino);
+        operacaoCambio.setValor(cambioRequestDTO.getValor());
+        operacaoCambio.setValorConvertido(valorConvertido);
+        operacaoCambio.setOperacao(cambioRequestDTO.getOperacao());
+
+        return operacaoDeCambioRepository.save(operacaoCambio);
+    }
 
     public List<OperacaoCambio> findAll() {
         return operacaoDeCambioRepository.findAll();
-    }
-
-    public OperacaoCambio save(OperacaoCambio operacaoCambio) {
-        Moeda moedaOrigem = moedaRepository.findById(operacaoCambio.getMoedaOrigem().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Moeda de origem não encontrada"));
-        Moeda moedaDestino = moedaRepository.findById(operacaoCambio.getMoedaDestino().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Moeda de destino não encontrada"));
-
-        operacaoCambio.setMoedaOrigem(moedaOrigem);
-        operacaoCambio.setMoedaDestino(moedaDestino);
-        operacaoCambio.calcularValorConvertido();
-
-        return operacaoDeCambioRepository.save(operacaoCambio);
     }
 
     public void deleteById(Long id) {

@@ -37,7 +37,8 @@ public class TaxaController {
             Moeda moeda = moedaService.findByCodigo(taxaDTO.getCodigoMoeda())
                     .orElseThrow(() -> new IllegalArgumentException("Moeda não encontrada"));
             Taxa taxa = new Taxa();
-            taxa.setValorTaxa(taxaDTO.getValorTaxa());
+            taxa.setValorTaxaCompra(taxaDTO.getValorTaxaCompra());
+            taxa.setValorTaxaVenda(taxaDTO.getValorTaxaVenda());
             taxa.setMoeda(moeda);
             Taxa savedTaxa = taxaService.save(taxaDTO);
             return ResponseEntity.ok(savedTaxa);

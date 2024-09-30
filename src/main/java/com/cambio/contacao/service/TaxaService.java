@@ -25,14 +25,16 @@ public class TaxaService {
 
     private TaxaDTO convertToDTO(Taxa taxa) {
         TaxaDTO taxaDTO = new TaxaDTO();
-        taxaDTO.setValorTaxa(taxa.getValorTaxa());
+        taxaDTO.setValorTaxaCompra(taxa.getValorTaxaCompra());
+        taxaDTO.setValorTaxaVenda(taxa.getValorTaxaVenda());
         taxaDTO.setCodigoMoeda(taxa.getMoeda().getCodigoMoeda());
         return taxaDTO;
     }
 
     public Taxa save(TaxaDTO taxaDTO) {
         Taxa taxa = new Taxa();
-        taxa.setValorTaxa(taxaDTO.getValorTaxa());
+        taxa.setValorTaxaCompra(taxaDTO.getValorTaxaCompra());
+        taxa.setValorTaxaVenda(taxaDTO.getValorTaxaVenda());
         Moeda moeda = moedaService.findByCodigo(taxaDTO.getCodigoMoeda())
                 .orElseThrow(() -> new IllegalArgumentException("Moeda não encontrada"));
         taxa.setMoeda(moeda);

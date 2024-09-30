@@ -8,15 +8,24 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class TaxaDTO {
-    private BigDecimal valorTaxa;
+    private BigDecimal valorTaxaCompra;
+    private BigDecimal valorTaxaVenda;
     private String codigoMoeda;
 
-    public BigDecimal getValorTaxa() {
-        return valorTaxa;
+    public BigDecimal getValorTaxaCompra() {
+        return valorTaxaCompra;
     }
 
-    public void setValorTaxa(BigDecimal valorTaxa) {
-        this.valorTaxa = valorTaxa;
+    public void setValorTaxaCompra(BigDecimal valorTaxaCompra) {
+        this.valorTaxaCompra = valorTaxaCompra;
+    }
+
+    public BigDecimal getValorTaxaVenda() {
+        return valorTaxaVenda;
+    }
+
+    public void setValorTaxaVenda(BigDecimal valorTaxaVenda) {
+        this.valorTaxaVenda = valorTaxaVenda;
     }
 
     public String getCodigoMoeda() {
