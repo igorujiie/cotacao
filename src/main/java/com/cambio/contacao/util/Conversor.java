@@ -10,7 +10,7 @@ public class Conversor {
     }
 
     public static BigDecimal converterVendaDeMoeda(BigDecimal valor, BigDecimal taxa) {
-        return valor.divide(taxa, 2, RoundingMode.HALF_UP);
+        return valor.divide(taxa, 3, RoundingMode.HALF_UP);
 
     }
 }
