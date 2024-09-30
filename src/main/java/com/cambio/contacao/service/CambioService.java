@@ -4,6 +4,7 @@ import com.cambio.contacao.DTO.CambioRequestDTO;
 import com.cambio.contacao.enums.Operacao;
 import com.cambio.contacao.model.OperacaoCambio;
 import com.cambio.contacao.model.Moeda;
+import com.cambio.contacao.model.Taxa;
 import com.cambio.contacao.repository.OperacaoDeCambioRepository;
 import com.cambio.contacao.util.Conversor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,17 @@ public class CambioService {
         Moeda moedaDestino = moedaService.findByCodigo(cambioRequestDTO.getMoedaDestino())
                 .orElseThrow(() -> new IllegalArgumentException("Moeda de destino não encontrada"));
 
+        Taxa taxaDestino = moedaDestino.getTaxa();
+        Taxa taxaOrigem = moedaOrigem.getTaxa();
+        if (taxaDestino == null) {
+            throw new IllegalArgumentException("Taxa não encontrada para a moeda de destino");
+        }
+
         BigDecimal valorConvertido;
         if (cambioRequestDTO.getOperacao().equals(Operacao.COMPRA)) {
-            valorConvertido = Conversor.converterCompraDeMoeda(cambioRequestDTO.getValor(), moedaDestino.getTaxa().getValorTaxaCompra());
+            valorConvertido = Conversor.converterCompraDeMoeda(cambioRequestDTO.getValor(), taxaDestino.getValorTaxaCompra());
         } else {
-            valorConvertido = Conversor.converterVendaDeMoeda(cambioRequestDTO.getValor(), moedaOrigem.getTaxa().getValorTaxaVenda());
+            valorConvertido = Conversor.converterVendaDeMoeda(cambioRequestDTO.getValor(), taxaOrigem.getValorTaxaVenda());
         }
 
         OperacaoCambio operacaoCambio = new OperacaoCambio();
