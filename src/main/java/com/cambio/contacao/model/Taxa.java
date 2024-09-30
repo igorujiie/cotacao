@@ -1,9 +1,7 @@
 package com.cambio.contacao.model;
 
-
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +21,7 @@ public class Taxa {
 
     @OneToOne
     @JoinColumn(name = "moeda_id", referencedColumnName = "id")
+    @JsonBackReference
     private Moeda moeda;
 
     public BigDecimal getValorTaxa() {
@@ -31,5 +30,13 @@ public class Taxa {
 
     public void setValorTaxa(BigDecimal valorTaxa) {
         this.valorTaxa = valorTaxa;
+    }
+
+    public Moeda getMoeda() {
+        return moeda;
+    }
+
+    public void setMoeda(Moeda moeda) {
+        this.moeda = moeda;
     }
 }

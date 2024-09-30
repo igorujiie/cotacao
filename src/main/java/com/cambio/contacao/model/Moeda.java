@@ -19,23 +19,18 @@ public class Moeda {
     private String nome;
 
     @Column(name = "codigo_moeda", nullable = false)
-    private String codigo;
+    private String codigoMoeda;
 
     @Column(name = "simbolo_moeda", nullable = false)
-    private String simbolo;
+    private String simboloMoeda;
 
     @OneToOne(mappedBy = "moeda", cascade = CascadeType.ALL)
     @Getter
     @Setter
     private Taxa taxa;
 
-    public Taxa getTaxa() {
-        return taxa;
-    }
 
-    public void setTaxa(Taxa taxa) {
-        this.taxa = taxa;
-    }
+
 
     public Long getId() {
         return id;
@@ -43,5 +38,37 @@ public class Moeda {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCodigoMoeda() {
+        return codigoMoeda;
+    }
+
+    public void setCodigoMoeda(String codigoMoeda) {
+        this.codigoMoeda = codigoMoeda;
+    }
+
+    public String getSimboloMoeda() {
+        return simboloMoeda;
+    }
+
+    public void setSimboloMoeda(String simboloMoeda) {
+        this.simboloMoeda = simboloMoeda;
+    }
+
+    public Taxa getTaxa() {
+        return taxa;
+    }
+
+    public void setTaxa(Taxa taxa) {
+        this.taxa = taxa;
     }
 }
