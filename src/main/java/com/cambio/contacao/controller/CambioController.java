@@ -21,7 +21,7 @@ public class CambioController {
     }
 
     @GetMapping("/{id}")
-    public OperacaoCambio getOperacaoCambioById(Long id) {
+    public OperacaoCambio getOperacaoCambioById(@PathVariable Long id) {
         return cambioService.findById(id);
     }
 
@@ -31,7 +31,7 @@ public class CambioController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOperacaoCambio(Long id) {
+    public void deleteOperacaoCambio(@PathVariable Long id) {
         cambioService.deleteById(id);
     }
 
