@@ -1,5 +1,6 @@
 package com.cambio.contacao.controller;
 
+import com.cambio.contacao.DTO.MoedaResponseDTO;
 import com.cambio.contacao.model.Moeda;
 import com.cambio.contacao.service.MoedaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class MoedaController {
     private MoedaService moedaService;
 
     @GetMapping
-    public List<Moeda> getAllMoedas() {
+    public List<MoedaResponseDTO> getAllMoedas() {
         return moedaService.findAll();
     }
 
@@ -28,8 +29,9 @@ public class MoedaController {
     }
 
     @PostMapping
-    public Moeda createMoeda(@RequestBody Moeda moeda) {
-        return moedaService.save(moeda);
+    public ResponseEntity<Moeda> createMoeda(@RequestBody Moeda moeda) {
+        Moeda savedMoeda = moedaService.save(moeda);
+        return ResponseEntity.ok(savedMoeda);
     }
 
 

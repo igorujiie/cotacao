@@ -1,12 +1,15 @@
 package com.cambio.contacao.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "moeda")
 public class Moeda {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,8 +18,16 @@ public class Moeda {
     private String nome;
 
     @Column(name = "codigo_moeda", nullable = false)
-    private String codigo;
+    private String codigoMoeda;
 
     @Column(name = "simbolo_moeda", nullable = false)
-    private String simbolo;
+    private String simboloMoeda;
+
+    @OneToOne(mappedBy = "moeda", cascade = CascadeType.ALL)
+    private Taxa taxa;
+
+    public Moeda() {
+
+    }
 }
+

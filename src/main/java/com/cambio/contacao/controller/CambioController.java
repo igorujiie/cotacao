@@ -1,10 +1,14 @@
 package com.cambio.contacao.controller;
 
-
+import com.cambio.contacao.DTO.CambioRequestDTO;
 import com.cambio.contacao.model.OperacaoCambio;
 import com.cambio.contacao.service.CambioService;
+import com.cambio.contacao.service.MoedaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
@@ -12,8 +16,12 @@ import java.util.List;
 @RequestMapping("/cambio")
 public class CambioController {
 
+
     @Autowired
     private CambioService cambioService;
+
+    @Autowired
+    private MoedaService moedaService;
 
     @GetMapping
     public List<OperacaoCambio> getAllOperacoesCambio() {
@@ -21,19 +29,20 @@ public class CambioController {
     }
 
     @GetMapping("/{id}")
-    public OperacaoCambio getOperacaoCambioById(Long id) {
+    public OperacaoCambio getOperacaoCambioById(@PathVariable Long id, HttpServletRequest request) {
         return cambioService.findById(id);
     }
 
+
+
     @PostMapping
-    public OperacaoCambio createOperacaoCambio(OperacaoCambio operacaoCambio) {
-        return cambioService.save(operacaoCambio);
+    public ResponseEntity<OperacaoCambio> createOperacaoCambio(@RequestBody CambioRequestDTO cambioRequestDTO) {
+        OperacaoCambio operacaoCambio = cambioService.save(cambioRequestDTO);
+        return ResponseEntity.ok(operacaoCambio);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOperacaoCambio(Long id) {
+    public void deleteOperacaoCambio(@PathVariable Long id) {
         cambioService.deleteById(id);
     }
-
-
 }
