@@ -12,8 +12,6 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class CambioRequestDTO {
-    @NotBlank(message = "Moeda de origem não pode ser nula ou vazia")
-    private String moedaOrigem;
 
     @NotBlank(message = "Moeda de destino não pode ser nula ou vazia")
     private String moedaDestino;

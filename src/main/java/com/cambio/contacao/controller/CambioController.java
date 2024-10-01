@@ -1,6 +1,7 @@
 package com.cambio.contacao.controller;
 
 import com.cambio.contacao.DTO.CambioRequestDTO;
+import com.cambio.contacao.DTO.CambioResponseDTO;
 import com.cambio.contacao.model.OperacaoCambio;
 import com.cambio.contacao.service.CambioService;
 import jakarta.validation.Valid;
@@ -34,18 +35,22 @@ public class CambioController {
         return cambioService.findById(id);
     }
 
-    @PostMapping
-    public ResponseEntity<Map<String, Object>> createOperacaoCambio(@Valid @RequestBody CambioRequestDTO cambioRequestDTO) {
-        cambioRequestDTO.convertOperacaoToUpperCase();
-        OperacaoCambio operacaoCambio = cambioService.save(cambioRequestDTO);
+@PostMapping
+public ResponseEntity<CambioResponseDTO> createOperacaoCambio(@Valid @RequestBody CambioRequestDTO cambioRequestDTO) {
+    cambioRequestDTO.convertOperacaoToUpperCase();
+    OperacaoCambio operacaoCambio = cambioService.save(cambioRequestDTO);
+    CambioResponseDTO responseDTO = convertToResponseDTO(operacaoCambio);
+    return ResponseEntity.ok(responseDTO);
+}
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("valor", operacaoCambio.getValor());
-        response.put("valorConvertido", operacaoCambio.getValorConvertido());
-        response.put("operacao", operacaoCambio.getOperacao());
-
-        return ResponseEntity.ok(response);
-    }
+private CambioResponseDTO convertToResponseDTO(OperacaoCambio operacaoCambio) {
+    CambioResponseDTO responseDTO = new CambioResponseDTO();
+    responseDTO.setCodigoMoeda((operacaoCambio.getMoeda().getCodigoMoeda()));
+    responseDTO.setValor(operacaoCambio.getValor());
+    responseDTO.setValorConvertido(operacaoCambio.getValorConvertido());
+    responseDTO.setOperacao(operacaoCambio.getOperacao());
+    return responseDTO;
+}
 
     @DeleteMapping("/{id}")
     public void deleteOperacaoCambio(@PathVariable Long id) {

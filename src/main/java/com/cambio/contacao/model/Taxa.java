@@ -16,10 +16,10 @@ public class Taxa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "valor_taxa_compra", nullable = false)
+    @Column(name = "valor_taxa_compra",precision = 10,scale = 4, nullable = false)
     private BigDecimal valorTaxaCompra;
 
-    @Column(name = "valor_taxa_venda", nullable = false)
+    @Column(name = "valor_taxa_venda", precision = 10, scale = 4, nullable = false)
     private BigDecimal valorTaxaVenda;
 
 

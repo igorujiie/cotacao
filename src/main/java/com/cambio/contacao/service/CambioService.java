@@ -23,27 +23,23 @@ public class CambioService {
     private MoedaService moedaService;
 
     public OperacaoCambio save(CambioRequestDTO cambioRequestDTO) {
-        Moeda moedaOrigem = moedaService.findByCodigo(cambioRequestDTO.getMoedaOrigem())
-                .orElseThrow(() -> new IllegalArgumentException("Moeda de origem não encontrada"));
         Moeda moedaDestino = moedaService.findByCodigo(cambioRequestDTO.getMoedaDestino())
                 .orElseThrow(() -> new IllegalArgumentException("Moeda de destino não encontrada"));
 
         Taxa taxaDestino = moedaDestino.getTaxa();
-        Taxa taxaOrigem = moedaOrigem.getTaxa();
         if (taxaDestino == null) {
             throw new IllegalArgumentException("Taxa não encontrada para a moeda de destino");
         }
 
         BigDecimal valorConvertido;
         if (cambioRequestDTO.getOperacao().equals(Operacao.COMPRA)) {
-            valorConvertido = Conversor.converterCompraDeMoeda(cambioRequestDTO.getValor(), taxaDestino.getValorTaxaCompra());
+            valorConvertido = Conversor.converterMoeda(cambioRequestDTO.getValor(), taxaDestino.getValorTaxaCompra());
         } else {
-            valorConvertido = Conversor.converterVendaDeMoeda(cambioRequestDTO.getValor(), taxaOrigem.getValorTaxaVenda());
+            valorConvertido = Conversor.converterMoeda(cambioRequestDTO.getValor(), taxaDestino.getValorTaxaVenda());
         }
 
         OperacaoCambio operacaoCambio = new OperacaoCambio();
-        operacaoCambio.setMoedaOrigem(moedaOrigem);
-        operacaoCambio.setMoedaDestino(moedaDestino);
+        operacaoCambio.setMoeda(moedaDestino);
         operacaoCambio.setValor(cambioRequestDTO.getValor());
         operacaoCambio.setValorConvertido(valorConvertido);
         operacaoCambio.setOperacao(cambioRequestDTO.getOperacao());

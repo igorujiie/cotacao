@@ -1,16 +1,11 @@
 package com.cambio.contacao.util;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class Conversor {
 
-    public static BigDecimal converterCompraDeMoeda(BigDecimal valor, BigDecimal taxa) {
+    public static BigDecimal converterMoeda(BigDecimal valor, BigDecimal taxa) {
         return valor.multiply(taxa);
     }
 
-    public static BigDecimal converterVendaDeMoeda(BigDecimal valor, BigDecimal taxa) {
-        return valor.divide(taxa, 3, RoundingMode.HALF_UP);
-
-    }
 }

@@ -23,7 +23,7 @@ public class Moeda {
     @Column(name = "simbolo_moeda", nullable = false)
     private String simboloMoeda;
 
-    @OneToOne(mappedBy = "moeda", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "moeda",cascade = CascadeType.ALL)
     private Taxa taxa;
 
     public Moeda() {
