@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+
 
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.validation.FieldError;
@@ -30,7 +30,7 @@ public class CambioController {
     }
 
     @GetMapping("/{id}")
-    public OperacaoCambio getOperacaoCambioById(@PathVariable Long id, HttpServletRequest request) {
+    public OperacaoCambio getOperacaoCambioById(@PathVariable Long id) {
         return cambioService.findById(id);
     }
 
